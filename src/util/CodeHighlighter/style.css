@@ -1,0 +1,11 @@
+:root {
+  --highlight-color: #fffee9;
+}
+
+h3 code {
+  color: inherit;
+}
+
+[data="highlight"] {
+  background: var(--highlight-color);
+}

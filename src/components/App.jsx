@@ -17,6 +17,7 @@ import Navigation from './Navigation';
 import HomePage from './pages/HomePage';
 import ApproachPage from './pages/ApproachPage';
 import ModelsPage from './pages/ModelsPage';
+import Page from './Page';
 
 import * as ROUTES from '../constants/routes';
 
@@ -53,6 +54,7 @@ export default function App() {
                 <Route exact path={ROUTES.HOME} element={ <HomePage/> } />
                 <Route exact path={ROUTES.APPROACH} element={ <ApproachPage/> } />
                 <Route exact path={ROUTES.MODELS} element={ <ModelsPage/> } />
+                <Route exact path={'/:id'} element={ <Page/> } />
               </Routes>
             </Box>
           </Container>
