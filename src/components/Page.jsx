@@ -11,8 +11,6 @@ import $ from "jquery";
 
 import * as URLS from '../constants/urls';
 
-import PageNotFoundPage from './pages/PageNotFoundPage';
-
 import highlightCode from '../util/CodeHighlighter';
 
 
@@ -29,9 +27,6 @@ const getContentsOfFileFromURL = url => {
   });
   return result;
 }
-
-const getJsonFromURL = url =>
-  JSON.parse(getContentsOfFileFromURL(url));
 
 const loadPostMarkdown = pageId =>
   getContentsOfFileFromURL(URLS.PAGES_FOLDER + `/${pageId}/${pageId}-en.md`);
