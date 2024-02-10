@@ -39,6 +39,7 @@ const theme = createTheme({
 
 export default function App() {
   const [isAuth, setIsAuth] = useState(false);
+  console.log(isAuth);
 
   return (
     <ThemeProvider theme={theme}>
