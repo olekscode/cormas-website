@@ -1,16 +1,17 @@
 import React from 'react';
 import { useState } from 'react';
+import { signOut } from 'firebase/auth';
 
 import {
-  BrowserRouter as Router,
   Route,
-  Routes
+  Routes,
+  useNavigate
 } from 'react-router-dom';
 
-import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+import { auth } from '../firebase-config';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -24,50 +25,41 @@ import Page from './Page';
 
 import * as ROUTES from '../constants/routes';
 
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#26a232',
-    },
-    secondary: {
-      main: '#e90061',
-    },
-  },
-});
-
-
 export default function App() {
   const [isAuth, setIsAuth] = useState(false);
-  console.log(isAuth);
+
+  let navigate = useNavigate();
+
+  const signUserOut = () => {
+    signOut(auth).then(() => {
+      localStorage.clear();
+      setIsAuth(false);
+      navigate(ROUTES.LOGIN);
+    });
+  };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <CssBaseline enableColorScheme />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            minHeight: '100vh'
-          }}
-        >
-          <Header/>
-          <Navigation/>
-          <Container>
-            <Box sx={{ maxWidth: '500vh' }}>
-              <Routes>
-                <Route exact path={ROUTES.HOME} element={ <HomePage/> } />
-                <Route exact path={ROUTES.LOGIN} element={ <LoginPage setIsAuth={setIsAuth} /> } />
-                <Route exact path={ROUTES.APPROACH} element={ <ApproachPage/> } />
-                <Route exact path={ROUTES.MODELS} element={ <ModelsPage/> } />
-                <Route exact path={'/:id'} element={ <Page/> } />
-              </Routes>
-            </Box>
-          </Container>
-          <Footer/>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh'
+      }}
+    >
+      <Header/>
+      <Navigation isAuth={isAuth} signUserOut={signUserOut} />
+      <Container>
+        <Box sx={{ maxWidth: '500vh' }}>
+          <Routes>
+            <Route exact path={ROUTES.HOME} element={ <HomePage/> } />
+            <Route exact path={ROUTES.LOGIN} element={ <LoginPage setIsAuth={setIsAuth} /> } />
+            <Route exact path={ROUTES.APPROACH} element={ <ApproachPage/> } />
+            <Route exact path={ROUTES.MODELS} element={ <ModelsPage/> } />
+            <Route exact path={'/:id'} element={ <Page/> } />
+          </Routes>
         </Box>
-      </Router>
-    </ThemeProvider>
+      </Container>
+      <Footer/>
+    </Box>
   );
 }

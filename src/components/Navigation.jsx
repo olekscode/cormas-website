@@ -15,8 +15,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import LanguageIcon from '@mui/icons-material/Language';
 
 import PAGES from '../constants/pages';
+import * as ROUTES from '../constants/routes';
 
-export default function Navigation() {
+export default function Navigation({isAuth, signUserOut}) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -26,6 +27,22 @@ export default function Navigation() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  const logInButton = (
+    <Button
+      onClick={handleCloseNavMenu}
+      component={Link}
+      to={ROUTES.LOGIN}
+    color="inherit"
+  >
+    {'Login'}
+  </Button>);
+
+  const logOutButton = (
+    <Button onClick={ signUserOut } color="inherit">Log out</Button>
+  );
+
+  console.log(isAuth);
 
   return (
     <AppBar position="static" color="primary" sx={{ boxShadow: 1, mb: 3, mt: 1 }}>
@@ -83,6 +100,7 @@ export default function Navigation() {
           </Box>
 
           <Button variant="text" color="inherit" startIcon={<LanguageIcon/>}>EN</Button>
+          { isAuth ?  logOutButton : logInButton }
         </Toolbar>
       </Container>
     </AppBar>

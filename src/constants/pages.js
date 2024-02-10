@@ -6,10 +6,6 @@ const PAGES = [
     "route": ROUTES.HOME
   },
   {
-    "title": "Login",
-    "route": ROUTES.LOGIN
-  },
-  {
     "title": "Approach",
     "route": ROUTES.APPROACH
   },
