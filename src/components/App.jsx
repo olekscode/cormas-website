@@ -1,4 +1,6 @@
 import React from 'react';
+import { useState } from 'react';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -15,6 +17,7 @@ import Footer from './Footer';
 import Navigation from './Navigation';
 
 import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
 import ApproachPage from './pages/ApproachPage';
 import ModelsPage from './pages/ModelsPage';
 import Page from './Page';
@@ -35,6 +38,8 @@ const theme = createTheme({
 
 
 export default function App() {
+  const [isAuth, setIsAuth] = useState(false);
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -52,6 +57,7 @@ export default function App() {
             <Box sx={{ maxWidth: '500vh' }}>
               <Routes>
                 <Route exact path={ROUTES.HOME} element={ <HomePage/> } />
+                <Route exact path={ROUTES.LOGIN} element={ <LoginPage setIsAuth={setIsAuth} /> } />
                 <Route exact path={ROUTES.APPROACH} element={ <ApproachPage/> } />
                 <Route exact path={ROUTES.MODELS} element={ <ModelsPage/> } />
                 <Route exact path={'/:id'} element={ <Page/> } />
