@@ -1,7 +1,7 @@
 import React from 'react';
 
-const ApproachPage = () => (
+const Approach = () => (
   <div>Approach Page</div>
 );
 
-export default ApproachPage;
+export default Approach;

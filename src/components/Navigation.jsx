@@ -33,13 +33,25 @@ export default function Navigation({isAuth, signUserOut}) {
       onClick={handleCloseNavMenu}
       component={Link}
       to={ROUTES.LOGIN}
-    color="inherit"
-  >
-    {'Login'}
-  </Button>);
+      color="inherit"
+    >
+     {'Login'}
+    </Button>
+  );
 
   const logOutButton = (
     <Button onClick={ signUserOut } color="inherit">Log out</Button>
+  );
+
+  const createPageButton = (
+    <Button
+      onClick={handleCloseNavMenu}
+      component={Link}
+      to={ROUTES.CREATE_PAGE}
+      color="inherit"
+    >
+      {'New Page'}
+    </Button>
   );
 
   console.log(isAuth);
@@ -99,6 +111,7 @@ export default function Navigation({isAuth, signUserOut}) {
             ))}
           </Box>
 
+          { isAuth && createPageButton }
           <Button variant="text" color="inherit" startIcon={<LanguageIcon/>}>EN</Button>
           { isAuth ?  logOutButton : logInButton }
         </Toolbar>

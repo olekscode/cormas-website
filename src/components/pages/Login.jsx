@@ -6,7 +6,7 @@ import { signInWithPopup } from 'firebase/auth';
 
 import * as ROUTES from '../../constants/routes';
 
-const LoginPage = ({setIsAuth}) => {
+const Login = ({setIsAuth}) => {
   let navigate = useNavigate();
 
   const signInWithGoogle = () => {
@@ -25,4 +25,4 @@ const LoginPage = ({setIsAuth}) => {
   );
 };
 
-export default LoginPage;
+export default Login;

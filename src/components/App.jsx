@@ -17,11 +17,13 @@ import Header from './Header';
 import Footer from './Footer';
 import Navigation from './Navigation';
 
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import ApproachPage from './pages/ApproachPage';
-import ModelsPage from './pages/ModelsPage';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Approach from './pages/Approach';
+import Models from './pages/Models';
+import Pages from './pages/Pages';
 import Page from './Page';
+import CreatePage from './pages/CreatePage';
 
 import * as ROUTES from '../constants/routes';
 
@@ -51,10 +53,12 @@ export default function App() {
       <Container>
         <Box sx={{ maxWidth: '500vh' }}>
           <Routes>
-            <Route exact path={ROUTES.HOME} element={ <HomePage/> } />
-            <Route exact path={ROUTES.LOGIN} element={ <LoginPage setIsAuth={setIsAuth} /> } />
-            <Route exact path={ROUTES.APPROACH} element={ <ApproachPage/> } />
-            <Route exact path={ROUTES.MODELS} element={ <ModelsPage/> } />
+            <Route exact path={ROUTES.HOME} element={ <Home/> } />
+            <Route exact path={ROUTES.LOGIN} element={ <Login setIsAuth={setIsAuth} /> } />
+            <Route exact path={ROUTES.APPROACH} element={ <Approach/> } />
+            <Route exact path={ROUTES.MODELS} element={ <Models/> } />
+            <Route exact path={ROUTES.PAGES} element={ <Pages/> } />
+            <Route exact path={ROUTES.CREATE_PAGE} element={ <CreatePage isAuth={isAuth} /> } />
             <Route exact path={'/:id'} element={ <Page/> } />
           </Routes>
         </Box>

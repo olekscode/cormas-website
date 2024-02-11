@@ -12,6 +12,10 @@ const PAGES = [
   {
     "title": "Models",
     "route": ROUTES.MODELS
+  },
+  {
+    "title": "Pages",
+    "route": ROUTES.PAGES
   }
 ];
 
