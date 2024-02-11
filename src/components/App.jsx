@@ -24,6 +24,7 @@ import Models from './pages/Models';
 import Pages from './pages/Pages';
 import Page from './Page';
 import CreatePage from './pages/CreatePage';
+import EditPage from './pages/EditPage';
 
 import * as ROUTES from '../constants/routes';
 
@@ -57,8 +58,9 @@ export default function App() {
             <Route exact path={ROUTES.LOGIN} element={ <Login setIsAuth={setIsAuth} /> } />
             <Route exact path={ROUTES.APPROACH} element={ <Approach/> } />
             <Route exact path={ROUTES.MODELS} element={ <Models/> } />
-            <Route exact path={ROUTES.PAGES} element={ <Pages/> } />
+            <Route exact path={ROUTES.PAGES} element={ <Pages isAuth={isAuth} /> } />
             <Route exact path={ROUTES.CREATE_PAGE} element={ <CreatePage isAuth={isAuth} /> } />
+            <Route exact path={ROUTES.EDIT_PAGE} element={ <EditPage isAuth={isAuth} /> } />
             <Route exact path={'/:id'} element={ <Page/> } />
           </Routes>
         </Box>

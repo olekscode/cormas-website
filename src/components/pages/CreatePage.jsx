@@ -1,65 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { addDoc, collection } from 'firebase/firestore';
 
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import PageEditor from './PageEditor';
 
 import { db, auth } from '../../firebase-config';
 import * as ROUTES from '../../constants/routes';
 
 const CreatePage = ({isAuth}) => {
-  const [title, setTitle] = useState('');
-  const [text, setText] = useState('');
-
   let navigate = useNavigate();
 
-  const pagesCollectionRef = collection(db, 'pages');
-
-  const createPage = async () => {
-    await addDoc(pagesCollectionRef, {
-      title,
-      text,
-      author: { name: auth.currentUser.displayName, id: auth.currentUser.uid }
-    });
-    navigate(ROUTES.HOME);
-  };
-
+  // Only authenticated users can edit pages
+  // Redirect to login page if user is not authenticated
   useEffect(() => {
     if (!isAuth) {
       navigate(ROUTES.LOGIN);
     }
   }, [isAuth, navigate]);
 
+  const pagesCollectionRef = collection(db, 'pages');
+
+  const createPage = async (title, text) => {
+    console.log('Adding a new page to a database');
+    await addDoc(pagesCollectionRef, {
+      title,
+      text,
+      author: { name: auth.currentUser.displayName, id: auth.currentUser.uid }
+    });
+  };
+
   return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault();
-        createPage();
-      }}
-    >
-      <Stack spacing={2}>
-        <TextField
-          id='title'
-          label='Page title'
-          fullWidth
-          required
-          onChange={ (event) => { setTitle(event.target.value) } }
-        />
-        <TextField
-          id='text'
-          label='Page contents'
-          fullWidth
-          required
-          multiline
-          rows={4}
-          onChange={ (event) => { setText(event.target.value) } }
-        />
-        <Button type='submit'>Submit</Button>
-      </Stack>
-    </form>
+    <PageEditor onSubmitCallback={ createPage } />
   );
 };
 

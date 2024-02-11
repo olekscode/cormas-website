@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,14 +16,17 @@ import FolderIcon from '@mui/icons-material/Folder';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import { db } from '../../firebase-config';
+import * as ROUTES from '../../constants/routes';
 
-const Pages = () => {
+const Pages = ({isAuth}) => {
   const [pageList, setPageList] = useState([]);
 
   const [selectedListItem, setSelectedListItem] = useState({
     anchorEl: null,
     page: null
   });
+
+  let navigate = useNavigate();
 
   const openMenu = Boolean(selectedListItem.anchorEl);
   console.log('Rendering the component');
@@ -48,7 +53,7 @@ const Pages = () => {
 
   const handleEditPage = () => {
     console.log('Editing page ' + selectedListItem.page.id);
-    handleClose();
+    navigate(ROUTES.EDIT_PAGE.replace(':pageId', selectedListItem.page.id));
   };
 
   const deletePage = async () => {
@@ -62,7 +67,7 @@ const Pages = () => {
     const pagesCollectionRef = collection(db, 'pages');
 
     const getPages = async () => {
-      console.log('Reading from database');
+      console.log('Reading pages from database');
 
       const data = await getDocs(pagesCollectionRef);
       setPageList(data.docs.map((doc) => ({
@@ -82,11 +87,8 @@ const Pages = () => {
         {pageList.map((page => (
           <ListItem
             key={page.id}
-            secondaryAction={
-              <IconButton edge='end' aria-label='menu' onClick={(event) => handleMenuIconClick(event, page)} >
-                <MoreVertIcon />
-              </IconButton>
-            }
+            component={Link}
+            to={ ROUTES.EDIT_PAGE.replace(':pageId', page.id) }
           >
             <ListItemAvatar>
               <Avatar>
@@ -97,6 +99,13 @@ const Pages = () => {
               primary={page.title}
               secondary={page.text}
             />
+            { isAuth && (
+              <ListItemSecondaryAction>
+                <IconButton edge='end' aria-label='menu' onClick={(event) => handleMenuIconClick(event, page)} >
+                  <MoreVertIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            ) }
           </ListItem>
         )))}
       </List>
