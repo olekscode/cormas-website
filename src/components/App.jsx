@@ -28,7 +28,7 @@ import CreatePage from './pages/CreatePage';
 import * as ROUTES from '../constants/routes';
 
 export default function App() {
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(localStorage.getItem('isAuth'));
 
   let navigate = useNavigate();
 
