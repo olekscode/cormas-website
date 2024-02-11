@@ -5,3 +5,4 @@ export const PAGES = '/pages'
 export const LOGIN = '/login';
 export const CREATE_PAGE = '/new-page';
 export const EDIT_PAGE = '/edit/:pageId';
+export const PAGE = '/:pageId';

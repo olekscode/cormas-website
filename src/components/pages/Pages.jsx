@@ -88,7 +88,7 @@ const Pages = ({isAuth}) => {
           <ListItem
             key={page.id}
             component={Link}
-            to={ ROUTES.EDIT_PAGE.replace(':pageId', page.id) }
+            to={ ROUTES.PAGE.replace(':pageId', page.id) }
           >
             <ListItemAvatar>
               <Avatar>
