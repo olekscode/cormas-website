@@ -54,8 +54,6 @@ export default function Navigation({isAuth, signUserOut}) {
     </Button>
   );
 
-  console.log(isAuth);
-
   return (
     <AppBar position="static" color="primary" sx={{ boxShadow: 1, mb: 3, mt: 1 }}>
       <Container>

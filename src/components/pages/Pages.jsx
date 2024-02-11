@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { getDocs, collection } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -13,60 +13,65 @@ import Typography from '@mui/material/Typography';
 import FolderIcon from '@mui/icons-material/Folder';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-// import { db } from '../../firebase-config';
+import { db } from '../../firebase-config';
 
 const Pages = () => {
   const [pageList, setPageList] = useState([]);
-  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const openMenu = Boolean(anchorEl);
+  const [selectedListItem, setSelectedListItem] = useState({
+    anchorEl: null,
+    page: null
+  });
 
-  const handleMenuIconClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const openMenu = Boolean(selectedListItem.anchorEl);
+  console.log('Rendering the component');
+
   const handleClose = () => {
-    setAnchorEl(null);
+    setSelectedListItem({
+      anchorEl: null,
+      page: null
+    });
+  };
+
+  const handleMenuIconClick = (event, page) => {
+    setSelectedListItem({
+      anchorEl: event.currentTarget,
+      page: page
+    });
+  };
+
+  const handleDeletePage = () => {
+    console.log('Deleting page ' + selectedListItem.page.id);
+    deletePage();
+    handleClose();
+  };
+
+  const handleEditPage = () => {
+    console.log('Editing page ' + selectedListItem.page.id);
+    handleClose();
+  };
+
+  const deletePage = async () => {
+    const pageDoc = doc(db, 'pages', selectedListItem.page.id);
+    await deleteDoc(pageDoc);
+
+    setPageList(pageList.filter((page) => (page.id !== selectedListItem.page.id)));
   };
 
   useEffect(() => {
-    setPageList([
-      {
-        'id': 1,
-        'author': { 'name': 'Oleksandr Zaitsev', id: 'oleks' },
-        'title': 'A third page',
-        'text': 'Bla bla bla'
-      },
-      {
-        'id': 2,
-        'author': { 'name': 'Oleksandr Zaitsev', id: 'oleks' },
-        'title': 'Another page',
-        'text': 'Lorem ipsum dolor sit amet'
-      },{
-        'id': 3,
-        'author': { 'name': 'Oleksandr Zaitsev', id: 'oleks' },
-        'title': 'Fifth page',
-        'text': '# Title Body'
-      },{
-        'id': 4,
-        'author': { 'name': 'Oleksandr Zaitsev', id: 'oleks' },
-        'title': 'Hello world!',
-        'text': 'This is my first page'
-      },
-    ]);
+    const pagesCollectionRef = collection(db, 'pages');
+
+    const getPages = async () => {
+      console.log('Reading from database');
+
+      const data = await getDocs(pagesCollectionRef);
+      setPageList(data.docs.map((doc) => ({
+        ...doc.data(), id: doc.id
+      })))
+    };
+
+    getPages();
   }, []);
-
-  // const pagesCollectionRef = collection(db, 'pages');
-
-  // useEffect(() => {
-  //   const getPages = async () => {
-  //     const data = await getDocs(pagesCollectionRef);
-  //     setPageList(data.docs.map((doc) => ({
-  //       ...doc.data(), id: doc.id
-  //     })))
-  //   };
-
-  //   getPages();
-  // }, []);
 
   return (
     <div>
@@ -76,8 +81,9 @@ const Pages = () => {
       <List>
         {pageList.map((page => (
           <ListItem
+            key={page.id}
             secondaryAction={
-              <IconButton edge='end' aria-label='menu' onClick={handleMenuIconClick} >
+              <IconButton edge='end' aria-label='menu' onClick={(event) => handleMenuIconClick(event, page)} >
                 <MoreVertIcon />
               </IconButton>
             }
@@ -96,12 +102,12 @@ const Pages = () => {
       </List>
       <Menu
         id='item-menu'
-        anchorEl={anchorEl}
+        anchorEl={selectedListItem.anchorEl}
         open={openMenu}
         onClose={handleClose}
       >
-        <MenuItem key='edit' onClick={handleClose}>Edit</MenuItem>
-        <MenuItem key='delete' onClick={handleClose}>Delete</MenuItem>
+        <MenuItem key='edit' aria-label='edit page' onClick={handleEditPage}>Edit</MenuItem>
+        <MenuItem key='delete' aria-label='delete page' onClick={handleDeletePage}>Delete</MenuItem>
       </Menu>
     </div>
   );
