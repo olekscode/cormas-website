@@ -24,6 +24,7 @@ import Models from './pages/Models';
 import Pages from './pages/Pages';
 import Page from './pages/Page';
 import CreatePage from './pages/CreatePage';
+import ImageStorage from './pages/ImageStorage';
 import EditPage from './pages/EditPage';
 
 import * as ROUTES from '../constants/routes';
@@ -60,6 +61,7 @@ export default function App() {
             <Route exact path={ROUTES.MODELS} element={ <Models/> } />
             <Route exact path={ROUTES.PAGES} element={ <Pages isAuth={isAuth} /> } />
             <Route exact path={ROUTES.CREATE_PAGE} element={ <CreatePage isAuth={isAuth} /> } />
+            <Route exact path={ROUTES.IMAGES} element={ <ImageStorage isAuth={isAuth} /> } />
             <Route exact path={ROUTES.EDIT_PAGE} element={ <EditPage isAuth={isAuth} /> } />
             <Route exact path={ROUTES.PAGE} element={ <Page/> } />
           </Routes>

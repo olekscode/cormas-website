@@ -45,12 +45,23 @@ export default function Navigation({isAuth, signUserOut}) {
 
   const createPageButton = (
     <Button
-      onClick={handleCloseNavMenu}
-      component={Link}
-      to={ROUTES.CREATE_PAGE}
-      color="inherit"
+      onClick={ handleCloseNavMenu }
+      component={ Link }
+      to={ ROUTES.CREATE_PAGE }
+      color='inherit'
     >
-      {'New Page'}
+      New Page
+    </Button>
+  );
+
+  const imagesButton = (
+    <Button
+      onClick={ handleCloseNavMenu }
+      component={ Link }
+      to={ ROUTES.IMAGES }
+      color='inherit'
+    >
+      Images
     </Button>
   );
 
@@ -109,7 +120,7 @@ export default function Navigation({isAuth, signUserOut}) {
             ))}
           </Box>
 
-          { isAuth && createPageButton }
+          { isAuth && [ createPageButton,  imagesButton ] }
           <Button variant="text" color="inherit" startIcon={<LanguageIcon/>}>EN</Button>
           { isAuth ?  logOutButton : logInButton }
         </Toolbar>
